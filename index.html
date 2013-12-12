@@ -9,27 +9,51 @@
 <body>
 	<div class="container">
 		<div id="header" class="row">
-			<h1 class="col-xs-12">Quiz Engine<br><small>An Example Application for <em>A Thorough Introduction to MarionetteJS</em></small></h1>
+			<h1 class="col-xs-12">Quiz Engine</h1>
 		</div>
 		<div id="body" class="row"></div>
 		<div id="footer" class="row">
-			<p class="col-xs-12">Copyright &copy; 2013 Joe Zimmerman. This is an example application used in the book, <em>A Thorough Introduction to MarionetteJS</em>.</p>
+			<p class="col-xs-12 text-muted">Copyright &copy; 2013 Joe Zimmerman. This is an example application used in the book, <em>A Thorough Introduction to MarionetteJS</em>.</p>
 		</div>
 	</div>
 
 <!-- Templates -->
+	<script type="text/template" id="quizlist-quizzes">
+		<div class="col-xs-12">
+			<div><a href="#new-quiz" class="btn btn-primary">Start a New Quiz</a></div>
+			<h3>Quizzes</h3>
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th class="col-xs-6">Quiz</th>
+						<th class="col-xs-3">Score</th>
+						<th class="col-xs-3">Actions</th>
+					</tr>
+				</thead>
+				<tbody data-item-view-container></tbody>
+			</table>
+		</div>
+	</script>
+
+	<script type="text/template" id="quizlist-quiz">
+		<td class="lead"><%= name %></td>
+		<td><%= score() %></td>
+		<td>
+			<a href="#quiz/<%= id() %>" class="btn btn-link col-xs-12 col-sm-6"><%= viewAction() %></a>
+			<button data-action="delete" class="btn btn-link col-xs-12 col-sm-6">Delete</button>
+		</td>
+	</script>
 
 <!-- Dependencies -->
 	<script src="js/vendor/jquery.min.js"></script>
 	<script src="js/vendor/underscore.min.js"></script>
 	<script src="js/vendor/backbone.min.js"></script>
-	<script src="js/vendor/backbone.localstorage.min.js"></script>
 	<script src="js/vendor/backbone.marionette.min.js"></script>
 <!-- Our Code -->
 	<!-- App and Helpers -->
 	<script src="js/QuizEngine.js"></script>
 	<script src="js/helpers/SubAppManager.js"></script>
-	<!-- Models -->
+	<!-- Data Module -->
 	<script src="js/modules/Data/models/Answer.js"></script>
 	<script src="js/modules/Data/models/Answers.js"></script>
 	<script src="js/modules/Data/models/Question.js"></script>
@@ -40,11 +64,12 @@
 	<script src="js/modules/Data/models/QuizQuestions.js"></script>
 	<script src="js/modules/Data/models/Quiz.js"></script>
 	<script src="js/modules/Data/models/Quizzes.js"></script>
-	<!-- Data Module -->
 	<script src="js/modules/Data/questions.js"></script>
 	<script src="js/modules/Data/quizzes.js"></script>
 	<script src="js/modules/Data/index.js"></script>
 	<!-- QuizList Module -->
+	<script src="js/modules/QuizList/views/QuizView.js"></script>
+	<script src="js/modules/QuizList/views/QuizzesView.js"></script>
 	<script src="js/modules/QuizList/Controller.js"></script>
 	<script src="js/modules/QuizList/Router.js"></script>
 	<script src="js/modules/QuizList/index.js"></script>
@@ -56,6 +81,7 @@
 				name: "Cat 1",
 				questions: [
 					{
+						id: 1,
 						text: "Q1.1",
 						correctAnswer: 0,
 						answers: [
@@ -65,6 +91,7 @@
 						]
 					},
 					{
+						id: 2,
 						text: "Q1.2",
 						correctAnswer: 0,
 						answers: [
@@ -79,6 +106,7 @@
 				name: "Cat 2",
 				questions: [
 					{
+						id: 3,
 						text: "Q2.1",
 						correctAnswer: 0,
 						answers: [
@@ -88,6 +116,7 @@
 						]
 					},
 					{
+						id: 4,
 						text: "Q2.2",
 						correctAnswer: 0,
 						answers: [
@@ -99,10 +128,40 @@
 				]
 			}
 		];
+
+		var init_quiz_data = [
+			{
+				name: "Quiz 1",
+				questions: [
+					{
+						question: 1,
+						chosenAnswer: 0
+					},
+					{
+						question: 2,
+						chosenAnswer: 1
+					}
+				]
+			},
+			{
+				name: "Quiz 2",
+				questions: [
+					{
+						question: 2,
+						chosenAnswer: null
+					},
+					{
+						question: 1,
+						chosenAnswer: 0
+					}
+				]
+			}
+		];
+		
 		QuizEngine.start({
 			data: {
 				questions: init_question_data,
-				quizzes: null // Maybe in the future we can use this
+				quizzes: init_quiz_data // Maybe in the future we can use this
 			}
 		});
 	</script>

@@ -12,7 +12,21 @@ QuizEngine.module('Data', function(Data) {
 			if (questions) {
 				this.set('questions', new Data.Questions(questions));
 			}
-		}
+		},
+
+		getQuestion: function(id) {
+			return this.get('questions').get(id);
+		},
+
+        // Custom toJSON to also JSONify 'questions'
+        toJSON: function() {
+            var data = Backbone.Model.prototype.toJSON.call(this);
+            if (data.questions) {
+                data.questions = data.questions.toJSON();
+            }
+
+            return data;
+        }
 	});
 
 });

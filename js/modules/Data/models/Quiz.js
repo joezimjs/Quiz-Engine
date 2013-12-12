@@ -29,7 +29,33 @@ QuizEngine.module('Data', function(Data) {
 		nextQuestion: function() {
 			this.currentQuestionNumber++;
 			return this.getCurrentQuestion();
-		}
+		},
+
+		getScore: function() {
+			if (this.getStatus() === "In Progress") {
+				return null;
+			}
+
+			var correct = this.get('questions').reduce(function(total, question){
+				if (question.get('chosenAnswer') === question.get('question').get('correctAnswer')) {
+					return ++total;
+				}
+
+				return total;
+			}, 0);
+
+			return parseInt(correct / this.get('questions').length * 100);
+		},
+
+        // Custom toJSON to also JSONify 'questions'
+        toJSON: function() {
+            var data = Backbone.Model.prototype.toJSON.call(this);
+            if (data.questions) {
+                data.questions = data.questions.toJSON();
+            }
+
+            return data;
+        }
 
 	});
 
