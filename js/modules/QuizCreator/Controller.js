@@ -1,31 +1,30 @@
-QuizEngine.module('QuizList', function(QuizList) {
+QuizEngine.module('QuizCreator', function(QuizCreator) {
 	
-	QuizList.Controller = Marionette.Controller.extend({
+	QuizCreator.Controller = Marionette.Controller.extend({
 		// When the module starts, we need to make sure we have the correct view showing
 		show: function() {
-			// There is only one view we can show, so always just use showList
-			this.showList();
+			// There is only one view we can show, so always just use showForm
+			this.showForm();
 		},
 
 		// When the module stops, we need to clean up our views
 		hide: function() {
 			QuizEngine.body.close();
-			this.data = this.view = null;
 		},
 
 		// Show List of quizzes for the user
-		showList: function() {
+		showForm: function() {
 			this._ensureSubAppIsRunning();
 
-			this.data = QuizEngine.module('Data').quizzes;
-			this.view = new QuizList.QuizzesView({collection:this.data});
+			this.data = QuizEngine.module('Data').questions;
+			this.view = new QuizCreator.FormView({collection:this.data});
 
 			QuizEngine.body.show(this.view);
 		},
 
 		// Makes sure that this subapp is running so that we can perform everything we need to
 		_ensureSubAppIsRunning: function() {
-			QuizEngine.execute('subapp:start', 'QuizList');
+			QuizEngine.execute('subapp:start', 'QuizCreator');
 		}
 	});
 

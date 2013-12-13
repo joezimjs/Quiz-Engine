@@ -44,6 +44,35 @@
 		</td>
 	</script>
 
+	<script type="text/template" id="quizcreator-form">
+		<div class="col-xs-12">
+			<h3>Create a Quiz</h3>
+			<form>
+				<div class="form-group row">
+					<label for="quizName" class="col-xs-4 col-sm-2">Quiz Name</label>
+					<div class="col-xs-8 col-sm-10">
+						<input class="form-control" id="quizName" type="text" value="Quiz">
+					</div>
+				</div>
+				<div class="form-group row">
+					<label class="col-xs-4 col-sm-2">Question Categories</label>
+					<div class="col-xs-8 col-sm-10">
+						<p class="help-block">Choose at least one category below. Your quiz will be comprised of all the questions from each of the categories selected.</p>
+						<% _.each(items, function(category, index) { %>
+							<div class="checkbox">
+								<label>
+									<input type="checkbox" value="<%= index %>"> <%= category.name %>
+								</label>
+							</div>
+						<% }); %>
+					</div>
+				</div>
+			</form>
+			<button data-action="start" class="btn btn-primary">Start Quiz</button>
+			<a href="#list" class="btn btn-default">Cancel</a>
+		</div>
+	</script>
+
 <!-- Dependencies -->
 	<script src="js/vendor/jquery.min.js"></script>
 	<script src="js/vendor/underscore.min.js"></script>
@@ -73,6 +102,11 @@
 	<script src="js/modules/QuizList/Controller.js"></script>
 	<script src="js/modules/QuizList/Router.js"></script>
 	<script src="js/modules/QuizList/index.js"></script>
+	<!-- QuizCreator Module -->
+	<script src="js/modules/QuizCreator/views/FormView.js"></script>
+	<script src="js/modules/QuizCreator/Controller.js"></script>
+	<script src="js/modules/QuizCreator/Router.js"></script>
+	<script src="js/modules/QuizCreator/index.js"></script>
 
 	<!-- Fire This Sucker Up -->
 	<script>

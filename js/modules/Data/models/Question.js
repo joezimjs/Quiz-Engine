@@ -2,6 +2,7 @@ QuizEngine.module('Data', function(Data) {
     
     Data.Question = Backbone.Model.extend({
         defaults: {
+            id: null,
             text: "",
             correctAnswer: 0,
             answers: []

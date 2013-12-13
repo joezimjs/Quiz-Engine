@@ -18,6 +18,10 @@ QuizEngine.module('Data', function(Data) {
 			return this.get('questions').get(id);
 		},
 
+		getQuestions: function() {
+			return this.get('questions').models;
+		},
+
         // Custom toJSON to also JSONify 'questions'
         toJSON: function() {
             var data = Backbone.Model.prototype.toJSON.call(this);

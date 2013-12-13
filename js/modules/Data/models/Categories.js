@@ -16,6 +16,26 @@ QuizEngine.module('Data', function(Data) {
             });
 
             return question;
+        },
+
+        getQuestionsByCategories: function(categories) {
+            var self = this;
+
+            if (_.isArray(categories)) {
+                var questions = [];
+
+                _.each(categories, function(categoryId){
+                    questions.push(self.get(categoryId).get('questions').models);
+                });
+
+                return _.flatten(questions);
+            }
+
+            if (_.isNumber(categories) || _.isString(categories)) {
+                return this.get(categories).get('questions').models;
+            }
+
+            return null;
         }
     });
 
