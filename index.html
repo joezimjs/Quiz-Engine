@@ -1,203 +1,242 @@
 <!doctype html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<title>Quiz Engine: A MarionetteJS Example Application</title>
-	<link rel="stylesheet" href="css/bootstrap.css">
-	<link rel="stylesheet" href="css/styles.css">
+    <meta charset="UTF-8">
+    <title>Quiz Engine: A MarionetteJS Example Application</title>
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-	<div class="container">
-		<div id="header" class="row">
-			<h1 class="col-xs-12">Quiz Engine</h1>
-		</div>
-		<div id="body" class="row"></div>
-		<div id="footer" class="row">
-			<p class="col-xs-12 text-muted">Copyright &copy; 2013 Joe Zimmerman. This is an example application used in the book, <em>A Thorough Introduction to MarionetteJS</em>.</p>
-		</div>
-	</div>
+    <div class="container">
+        <div id="header" class="row">
+            <h1 class="col-xs-12">Quiz Engine</h1>
+        </div>
+        <div id="body" class="row"></div>
+        <div id="footer" class="row">
+            <p class="col-xs-12 text-muted">Copyright &copy; 2013 Joe Zimmerman. This is an example application used in the book, <em>A Thorough Introduction to MarionetteJS</em>.</p>
+        </div>
+    </div>
 
 <!-- Templates -->
-	<script type="text/template" id="quizlist-quizzes">
-		<div class="col-xs-12">
-			<div><a href="#new-quiz" class="btn btn-primary">Start a New Quiz</a></div>
-			<h3>Quizzes</h3>
-			<table class="table table-striped">
-				<thead>
-					<tr>
-						<th class="col-xs-6">Quiz</th>
-						<th class="col-xs-3">Score</th>
-						<th class="col-xs-3">Actions</th>
-					</tr>
-				</thead>
-				<tbody data-item-view-container></tbody>
-			</table>
-		</div>
-	</script>
+    <script type="text/template" id="quizlist-quizzes">
+        <div class="col-xs-12">
+            <div><a href="#new-quiz" class="btn btn-primary">Start a New Quiz</a></div>
+            <h3>Quizzes</h3>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th class="col-xs-6">Quiz</th>
+                        <th class="col-xs-3">Score</th>
+                        <th class="col-xs-3">Actions</th>
+                    </tr>
+                </thead>
+                <tbody data-item-view-container></tbody>
+            </table>
+        </div>
+    </script>
 
-	<script type="text/template" id="quizlist-quiz">
-		<td class="lead"><%= name %></td>
-		<td><%= score() %></td>
-		<td>
-			<a href="#quiz/<%= id() %>" class="btn btn-link col-xs-12 col-sm-6"><%= viewAction() %></a>
-			<button data-action="delete" class="btn btn-link col-xs-12 col-sm-6">Delete</button>
-		</td>
-	</script>
+    <script type="text/template" id="quizlist-quiz">
+        <td class="lead"><%= name %></td>
+        <td><%= score() %></td>
+        <td>
+            <a href="#quiz/<%= id() %>" class="btn btn-link col-xs-12 col-sm-6"><%= viewAction() %></a>
+            <button data-action="delete" class="btn btn-link col-xs-12 col-sm-6">Delete</button>
+        </td>
+    </script>
 
-	<script type="text/template" id="quizcreator-form">
-		<div class="col-xs-12">
-			<h3>Create a Quiz</h3>
-			<form>
-				<div class="form-group row">
-					<label for="quizName" class="col-xs-4 col-sm-2">Quiz Name</label>
-					<div class="col-xs-8 col-sm-10">
-						<input class="form-control" id="quizName" type="text" value="Quiz">
-					</div>
-				</div>
-				<div class="form-group row">
-					<label class="col-xs-4 col-sm-2">Question Categories</label>
-					<div class="col-xs-8 col-sm-10">
-						<p class="help-block">Choose at least one category below. Your quiz will be comprised of all the questions from each of the categories selected.</p>
-						<% _.each(items, function(category, index) { %>
-							<div class="checkbox">
-								<label>
-									<input type="checkbox" value="<%= index %>"> <%= category.name %>
-								</label>
-							</div>
-						<% }); %>
-					</div>
-				</div>
-			</form>
-			<button data-action="start" class="btn btn-primary">Start Quiz</button>
-			<a href="#list" class="btn btn-default">Cancel</a>
-		</div>
-	</script>
+    <script type="text/template" id="quizcreator-form">
+        <div class="col-xs-12">
+            <h3>Create a Quiz</h3>
+            <form>
+                <div class="form-group row">
+                    <label for="quizName" class="col-xs-4 col-sm-2">Quiz Name</label>
+                    <div class="col-xs-8 col-sm-10">
+                        <input class="form-control" id="quizName" type="text" value="Quiz">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-xs-4 col-sm-2">Question Categories</label>
+                    <div class="col-xs-8 col-sm-10">
+                        <p class="help-block">Choose at least one category below. Your quiz will be comprised of all the questions from each of the categories selected.</p>
+                        <% _.each(items, function(category, index) { %>
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" value="<%= index %>"> <%= category.name %>
+                                </label>
+                            </div>
+                        <% }); %>
+                    </div>
+                </div>
+            </form>
+            <button data-action="start" class="btn btn-primary">Start Quiz</button>
+            <a href="#list" class="btn btn-default">Cancel</a>
+        </div>
+    </script>
+
+    <script type="text/template" id="quiz-quizreview">
+        <div class="col-xs-12 col-sm-4">
+            <div class="row">
+                <h4 class="col-xs-4 col-sm-12 text-center">Correct: <%= getCorrect() %></h4>
+                <h4 class="col-xs-4 col-sm-12 text-center">Total: <%= getTotal() %></h4>
+                <h4 class="col-xs-4 col-sm-12 text-center">Score: <%= getScore() %></h4>
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-8">
+            <table class="table">
+                <thead>
+                    <th class="col-xs-4">Question</th>
+                    <th class="col-xs-4">Correct</th>
+                    <th class="col-xs-4">Action</th>
+                </thead>
+                <tbody>
+                    <% _.each(questions, function(question, index) { %>
+                        <tr>
+                            <td><%= index + 1 %></td>
+                            <td>
+                                <% if (isCorrect(index)) { %>
+                                    <span class="glyphicon glyphicon-ok green"></span>
+                                <% } else { %>
+                                    <span class="glyphicon glyphicon-remove red"></span>
+                                <% } %>
+                            </td>
+                            <td><a href="#quiz/<%= getQuizId() %>/<%= getQuestionId(index) %>">Review</a></td>
+                        </tr>
+                    <% }); %>
+                </tbody>
+            </table>
+        </div>
+    </script>
 
 <!-- Dependencies -->
-	<script src="js/vendor/jquery.min.js"></script>
-	<script src="js/vendor/underscore.min.js"></script>
-	<script src="js/vendor/backbone.min.js"></script>
-	<script src="js/vendor/backbone.marionette.min.js"></script>
+    <script src="js/vendor/jquery.min.js"></script>
+    <script src="js/vendor/underscore.min.js"></script>
+    <script src="js/vendor/backbone.min.js"></script>
+    <script src="js/vendor/backbone.marionette.min.js"></script>
 <!-- Our Code -->
-	<!-- App and Helpers -->
-	<script src="js/QuizEngine.js"></script>
-	<script src="js/helpers/SubAppManager.js"></script>
-	<!-- Data Module -->
-	<script src="js/modules/Data/models/Answer.js"></script>
-	<script src="js/modules/Data/models/Answers.js"></script>
-	<script src="js/modules/Data/models/Question.js"></script>
-	<script src="js/modules/Data/models/Questions.js"></script>
-	<script src="js/modules/Data/models/Category.js"></script>
-	<script src="js/modules/Data/models/Categories.js"></script>
-	<script src="js/modules/Data/models/QuizQuestion.js"></script>
-	<script src="js/modules/Data/models/QuizQuestions.js"></script>
-	<script src="js/modules/Data/models/Quiz.js"></script>
-	<script src="js/modules/Data/models/Quizzes.js"></script>
-	<script src="js/modules/Data/questions.js"></script>
-	<script src="js/modules/Data/quizzes.js"></script>
-	<script src="js/modules/Data/index.js"></script>
-	<!-- QuizList Module -->
-	<script src="js/modules/QuizList/views/QuizView.js"></script>
-	<script src="js/modules/QuizList/views/QuizzesView.js"></script>
-	<script src="js/modules/QuizList/Controller.js"></script>
-	<script src="js/modules/QuizList/Router.js"></script>
-	<script src="js/modules/QuizList/index.js"></script>
-	<!-- QuizCreator Module -->
-	<script src="js/modules/QuizCreator/views/FormView.js"></script>
-	<script src="js/modules/QuizCreator/Controller.js"></script>
-	<script src="js/modules/QuizCreator/Router.js"></script>
-	<script src="js/modules/QuizCreator/index.js"></script>
+    <!-- App and Helpers -->
+    <script src="js/QuizEngine.js"></script>
+    <script src="js/helpers/SubAppManager.js"></script>
+    <!-- Data Module -->
+    <script src="js/modules/Data/models/Answer.js"></script>
+    <script src="js/modules/Data/models/Answers.js"></script>
+    <script src="js/modules/Data/models/Question.js"></script>
+    <script src="js/modules/Data/models/Questions.js"></script>
+    <script src="js/modules/Data/models/Category.js"></script>
+    <script src="js/modules/Data/models/Categories.js"></script>
+    <script src="js/modules/Data/models/QuizQuestion.js"></script>
+    <script src="js/modules/Data/models/QuizQuestions.js"></script>
+    <script src="js/modules/Data/models/Quiz.js"></script>
+    <script src="js/modules/Data/models/Quizzes.js"></script>
+    <script src="js/modules/Data/questions.js"></script>
+    <script src="js/modules/Data/quizzes.js"></script>
+    <script src="js/modules/Data/index.js"></script>
+    <!-- QuizList Module -->
+    <script src="js/modules/QuizList/views/QuizView.js"></script>
+    <script src="js/modules/QuizList/views/QuizzesView.js"></script>
+    <script src="js/modules/QuizList/Controller.js"></script>
+    <script src="js/modules/QuizList/Router.js"></script>
+    <script src="js/modules/QuizList/index.js"></script>
+    <!-- QuizCreator Module -->
+    <script src="js/modules/QuizCreator/views/FormView.js"></script>
+    <script src="js/modules/QuizCreator/Controller.js"></script>
+    <script src="js/modules/QuizCreator/Router.js"></script>
+    <script src="js/modules/QuizCreator/index.js"></script>
+    <!-- Quiz Module -->
+    <script src="js/modules/Quiz/views/QuizReviewView.js"></script>
+    <script src="js/modules/Quiz/Controller.js"></script>
+    <script src="js/modules/Quiz/Router.js"></script>
+    <script src="js/modules/Quiz/index.js"></script>
 
-	<!-- Fire This Sucker Up -->
-	<script>
-		var init_question_data = [
-			{
-				name: "Cat 1",
-				questions: [
-					{
-						id: 1,
-						text: "Q1.1",
-						correctAnswer: 0,
-						answers: [
-							{text: "A1.1.1"},
-							{text: "A1.1.2"},
-							{text: "A1.1.3"}
-						]
-					},
-					{
-						id: 2,
-						text: "Q1.2",
-						correctAnswer: 0,
-						answers: [
-							{text: "A1.2.1"},
-							{text: "A1.2.2"},
-							{text: "A1.2.3"}
-						]
-					}
-				]
-			},
-			{
-				name: "Cat 2",
-				questions: [
-					{
-						id: 3,
-						text: "Q2.1",
-						correctAnswer: 0,
-						answers: [
-							{text: "A2.1.1"},
-							{text: "A2.1.2"},
-							{text: "A2.1.3"}
-						]
-					},
-					{
-						id: 4,
-						text: "Q2.2",
-						correctAnswer: 0,
-						answers: [
-							{text: "A2.2.1"},
-							{text: "A2.2.2"},
-							{text: "A2.2.3"}
-						]
-					}
-				]
-			}
-		];
+    <!-- Fire This Sucker Up -->
+    <script>
+        var init_question_data = [
+            {
+                name: "Cat 1",
+                questions: [
+                    {
+                        id: 1,
+                        text: "Q1.1",
+                        correctAnswer: 0,
+                        answers: [
+                            {text: "A1.1.1"},
+                            {text: "A1.1.2"},
+                            {text: "A1.1.3"}
+                        ]
+                    },
+                    {
+                        id: 2,
+                        text: "Q1.2",
+                        correctAnswer: 0,
+                        answers: [
+                            {text: "A1.2.1"},
+                            {text: "A1.2.2"},
+                            {text: "A1.2.3"}
+                        ]
+                    }
+                ]
+            },
+            {
+                name: "Cat 2",
+                questions: [
+                    {
+                        id: 3,
+                        text: "Q2.1",
+                        correctAnswer: 0,
+                        answers: [
+                            {text: "A2.1.1"},
+                            {text: "A2.1.2"},
+                            {text: "A2.1.3"}
+                        ]
+                    },
+                    {
+                        id: 4,
+                        text: "Q2.2",
+                        correctAnswer: 0,
+                        answers: [
+                            {text: "A2.2.1"},
+                            {text: "A2.2.2"},
+                            {text: "A2.2.3"}
+                        ]
+                    }
+                ]
+            }
+        ];
 
-		var init_quiz_data = [
-			{
-				name: "Quiz 1",
-				questions: [
-					{
-						question: 1,
-						chosenAnswer: 0
-					},
-					{
-						question: 2,
-						chosenAnswer: 1
-					}
-				]
-			},
-			{
-				name: "Quiz 2",
-				questions: [
-					{
-						question: 2,
-						chosenAnswer: null
-					},
-					{
-						question: 1,
-						chosenAnswer: 0
-					}
-				]
-			}
-		];
-		
-		QuizEngine.start({
-			data: {
-				questions: init_question_data,
-				quizzes: init_quiz_data // Maybe in the future we can use this
-			}
-		});
-	</script>
+        var init_quiz_data = [
+            {
+                name: "Quiz 1",
+                questions: [
+                    {
+                        question: 1,
+                        chosenAnswer: 0
+                    },
+                    {
+                        question: 2,
+                        chosenAnswer: 1
+                    }
+                ]
+            },
+            {
+                name: "Quiz 2",
+                questions: [
+                    {
+                        question: 2,
+                        chosenAnswer: null
+                    },
+                    {
+                        question: 1,
+                        chosenAnswer: 0
+                    }
+                ]
+            }
+        ];
+        
+        QuizEngine.start({
+            data: {
+                questions: init_question_data,
+                quizzes: init_quiz_data // Maybe in the future we can use this
+            }
+        });
+    </script>
 </body>
 </html>

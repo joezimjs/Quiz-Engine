@@ -14,6 +14,10 @@ QuizEngine.module('Data', function(Data) {
             }
         },
 
+        isCorrect: function() {
+            return this.get('chosenAnswer') === this.get('question').get('correctAnswer');
+        },
+
         // Custom toJSON to also JSONify 'question'
         toJSON: function() {
             var data = Backbone.Model.prototype.toJSON.call(this);

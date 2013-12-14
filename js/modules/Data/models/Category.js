@@ -1,26 +1,26 @@
 QuizEngine.module('Data', function(Data) {
-	
-	Data.Category = Backbone.Model.extend({
-		defaults: {
-			name: "",
-			questions: null
-		},
+    
+    Data.Category = Backbone.Model.extend({
+        defaults: {
+            name: "",
+            questions: null
+        },
 
-		initialize: function() {
-			var questions = this.get('questions');
+        initialize: function() {
+            var questions = this.get('questions');
 
-			if (questions) {
-				this.set('questions', new Data.Questions(questions));
-			}
-		},
+            if (questions) {
+                this.set('questions', new Data.Questions(questions));
+            }
+        },
 
-		getQuestion: function(id) {
-			return this.get('questions').get(id);
-		},
+        getQuestion: function(id) {
+            return this.get('questions').get(id);
+        },
 
-		getQuestions: function() {
-			return this.get('questions').models;
-		},
+        getQuestions: function() {
+            return this.get('questions').models;
+        },
 
         // Custom toJSON to also JSONify 'questions'
         toJSON: function() {
@@ -31,6 +31,6 @@ QuizEngine.module('Data', function(Data) {
 
             return data;
         }
-	});
+    });
 
 });
