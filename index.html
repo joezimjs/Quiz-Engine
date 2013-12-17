@@ -8,9 +8,13 @@
 </head>
 <body>
     <div class="container">
-        <div id="header" class="row">
-            <h1 class="col-xs-12">Quiz Engine</h1>
-        </div>
+        <nav id="header" class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <a href="#list" class="navbar-brand">Quiz Engine</a>
+                </div>
+            </div>
+        </nav>
         <div id="body" class="row"></div>
         <div id="footer" class="row">
             <p class="col-xs-12 text-muted">Copyright &copy; 2013 Joe Zimmerman. This is an example application used in the book, <em>A Thorough Introduction to MarionetteJS</em>.</p>
@@ -73,6 +77,20 @@
         </div>
     </script>
 
+    <script type="text/template" id="quiz-quiz">
+        <div class="col-xs-12">
+            <h3><%= name %></h3>
+            <div id="quiz-subview-container"></div>
+        </div>
+    </script>
+
+    <script type="text/template" id="quiz-quiz404">
+        <div class="col-xs-12 text-center">
+            <h3>This Quiz Does Not Exist</h2>
+            <p><a href="#list">Return to Your Quizzes</a></p>
+        </div>
+    </script>
+
     <script type="text/template" id="quiz-quizreview">
         <div class="col-xs-12 col-sm-4">
             <div class="row">
@@ -107,15 +125,31 @@
         </div>
     </script>
 
+    <script type="text/template" id="quiz-quizquestion">
+        <p><strong><%= questionNumber() %>. </strong><%= question.text %></p>
+        <form id="form">
+            <% _.each(question.answers, function(answer, index) { %>
+                <div class="radio">
+                    <label>
+                        <input type="radio" name="answers" value="<%= index %>">
+                        <%= answer.text %>
+                    </label>
+                </div>
+            <% }); %>
+            <button class="btn btn-primary" data-action="next"><%= nextButtonText() %></button>
+        </form>
+    </script>
+
 <!-- Dependencies -->
     <script src="js/vendor/jquery.min.js"></script>
     <script src="js/vendor/underscore.min.js"></script>
-    <script src="js/vendor/backbone.min.js"></script>
+    <script src="js/vendor/backbone.js"></script>
     <script src="js/vendor/backbone.marionette.min.js"></script>
 <!-- Our Code -->
     <!-- App and Helpers -->
     <script src="js/QuizEngine.js"></script>
     <script src="js/helpers/SubAppManager.js"></script>
+    <script src="js/Router.js"></script>
     <!-- Data Module -->
     <script src="js/modules/Data/models/Answer.js"></script>
     <script src="js/modules/Data/models/Answers.js"></script>
@@ -142,7 +176,10 @@
     <script src="js/modules/QuizCreator/Router.js"></script>
     <script src="js/modules/QuizCreator/index.js"></script>
     <!-- Quiz Module -->
+    <script src="js/modules/Quiz/views/QuizView.js"></script>
     <script src="js/modules/Quiz/views/QuizReviewView.js"></script>
+    <script src="js/modules/Quiz/views/QuizQuestionView.js"></script>
+    <script src="js/modules/Quiz/views/Quiz404View.js"></script>
     <script src="js/modules/Quiz/Controller.js"></script>
     <script src="js/modules/Quiz/Router.js"></script>
     <script src="js/modules/Quiz/index.js"></script>
@@ -225,7 +262,7 @@
                     },
                     {
                         question: 1,
-                        chosenAnswer: 0
+                        chosenAnswer: null
                     }
                 ]
             }

@@ -9,29 +9,46 @@ QuizEngine.module('Quiz', function(Quiz) {
         // When the module stops, we need to clean up our views
         hide: function() {
             QuizEngine.body.close();
-            this.data = this.view = null;
+            this.stopListening();
+            this.data = this.view = this.subView = null;
         },
 
         // Show List of quizzes for the user
         showQuiz: function(cid) {
             this._ensureSubAppIsRunning();
+            this.stopListening();
 
             this.data = QuizEngine.module('Data').quizzes.get(cid);
-
-            // Show quiz review if the quiz is completed
-            if (this.data && this.data.getStatus() === "Complete") {
-                this.view = new Quiz.QuizReviewView({model:this.data});
-            }
-            // Show the quiz itself, from the beginning, or where they left off
-            else if (this.data) {
-                this.view = new Quiz.QuizView({model:this.data});
-            }
-            // Let the user know the quiz doesn't exist
-            else {
-                this.view = new Quiz.Quiz404View();
-            }
+            this.view = new Quiz.QuizView({model:this.data});
 
             QuizEngine.body.show(this.view);
+            if (this.data) {
+                this.listenTo(this.data, 'all', this.refresh);
+                this.showQuizData();
+            }
+        },
+
+        showQuizData: function() {
+            if (this.data.getStatus() === 'Complete') {
+                // Show the Quiz Review
+                this.subView = new Quiz.QuizReviewView({model: this.data});
+            }
+            else {
+                // They're still taking the quiz. Show a question they can answer
+                var question = this.data.getCurrentQuestion();
+                this.subView = new Quiz.QuizQuestionView({
+                    model: question, 
+                    questionNumber: this.data.currentNumber,
+                    quizLength: this.data.get('questions').length
+                });
+            }
+
+            this.view.quizData.show(this.subView);
+        },
+
+        refresh: function() {
+            this.view.render();
+            this.showQuizData();
         },
 
         // Makes sure that this subapp is running so that we can perform everything we need to

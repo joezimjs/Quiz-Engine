@@ -7,22 +7,20 @@ QuizEngine.module('Data', function(Data) {
         },
 
         initialize: function() {
-            var questions = this.get('questions');
+            this.set('questions', new Data.QuizQuestions(this.get('questions')));
 
-            if (questions) {
-                this.set('questions', new Data.QuizQuestions(questions));
-            }
-
-            this.currentQuestionNumber = 0;
+            this.listenTo(this.get('questions'), 'all', this._forwardEvents);
         },
 
         getCurrentQuestion: function() {
-            return this.get('questions').at(this.currentQuestionNumber - 1);
-        },
-
-        nextQuestion: function() {
-            this.currentQuestionNumber++;
-            return this.getCurrentQuestion();
+            var self = this;
+            // Get the first question that hasn't been answered
+            return this.get('questions').find(function(question, index) {
+                if (question.get('chosenAnswer') === null) {
+                    self.currentNumber = index + 1;
+                    return true;
+                }
+            });
         },
 
         // Determine if the quiz is in progress or complete
@@ -40,7 +38,6 @@ QuizEngine.module('Data', function(Data) {
         },
 
         getCorrect: function() {
-            var self = this;
             var correct = this.get('questions').reduce(function(total, question){
                 if (question.isCorrect()) {
                     return ++total;
@@ -60,6 +57,12 @@ QuizEngine.module('Data', function(Data) {
             }
 
             return data;
+        },
+
+        _forwardEvents: function() {
+            var args = Array.prototype.slice.call(arguments);
+            args[0] = 'questions:' + args[0];
+            this.trigger.apply(this, args);
         }
 
     });

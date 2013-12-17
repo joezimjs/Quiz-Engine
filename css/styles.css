@@ -1,5 +1,6 @@
 #body {
-	margin: 20px 0;
+    margin-top: 60px;
+	margin-bottom: 30px;
 }
 
 .table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td {
@@ -12,4 +13,8 @@
 
 .red {
 	color: #c00;
+}
+
+.navbar-brand {
+    font-size: 28px;
 }

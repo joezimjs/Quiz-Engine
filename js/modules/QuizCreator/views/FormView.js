@@ -35,7 +35,7 @@ QuizEngine.module('QuizCreator', function(QuizCreator) {
             });
 
             quiz = QuizEngine.module('Data').quizzes.createQuiz(quizName, _.flatten(questions));
-            Backbone.history.navigate('quiz/' + quiz.cid);
+            Backbone.history.navigate('quiz/' + quiz.cid, {trigger:true});
         }
     });
 
