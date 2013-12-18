@@ -10,7 +10,7 @@ QuizEngine.module('QuizList', function(QuizList) {
                 score: function() {
                     var score = model.getScore();
 
-                    return score === null ? "N/A" : score + "%";
+                    return score === null ? "In Progress" : score + "%";
                 },
                 id: function() {
                     return model.cid;

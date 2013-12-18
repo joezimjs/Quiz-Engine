@@ -20,12 +20,6 @@ QuizEngine.module('Quiz', function(Quiz) {
                     var question = quiz.get('questions').at(index);
 
                     return question.isCorrect();
-                },
-                getQuizId: function() {
-                    return quiz.cid;
-                },
-                getQuestionId: function(index) {
-                    return quiz.get('questions').at(index).cid;
                 }
             };
         }

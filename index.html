@@ -48,6 +48,12 @@
         </td>
     </script>
 
+    <script type="text/template" id="quizlist-noquizzes">
+        <td colspan="3" class="text-center">
+            You have no quizzes here. Click the "Start a New Quiz" button to kick things off!
+        </td>
+    </script>
+
     <script type="text/template" id="quizcreator-form">
         <div class="col-xs-12">
             <h3>Create a Quiz</h3>
@@ -104,7 +110,6 @@
                 <thead>
                     <th class="col-xs-4">Question</th>
                     <th class="col-xs-4">Correct</th>
-                    <th class="col-xs-4">Action</th>
                 </thead>
                 <tbody>
                     <% _.each(questions, function(question, index) { %>
@@ -117,7 +122,6 @@
                                     <span class="glyphicon glyphicon-remove red"></span>
                                 <% } %>
                             </td>
-                            <td><a href="#quiz/<%= getQuizId() %>/<%= getQuestionId(index) %>">Review</a></td>
                         </tr>
                     <% }); %>
                 </tbody>
@@ -143,7 +147,7 @@
 <!-- Dependencies -->
     <script src="js/vendor/jquery.min.js"></script>
     <script src="js/vendor/underscore.min.js"></script>
-    <script src="js/vendor/backbone.js"></script>
+    <script src="js/vendor/backbone.min.js"></script>
     <script src="js/vendor/backbone.marionette.min.js"></script>
 <!-- Our Code -->
     <!-- App and Helpers -->
@@ -166,6 +170,7 @@
     <script src="js/modules/Data/index.js"></script>
     <!-- QuizList Module -->
     <script src="js/modules/QuizList/views/QuizView.js"></script>
+    <script src="js/modules/QuizList/views/NoQuizzesView.js"></script>
     <script src="js/modules/QuizList/views/QuizzesView.js"></script>
     <script src="js/modules/QuizList/Controller.js"></script>
     <script src="js/modules/QuizList/Router.js"></script>
@@ -188,51 +193,135 @@
     <script>
         var init_question_data = [
             {
-                name: "Cat 1",
+                name: "Tongue Twisters",
                 questions: [
                     {
                         id: 1,
-                        text: "Q1.1",
+                        text: "How much wood could a woodchuck chuck if a woodchuck could chuck wood?",
                         correctAnswer: 0,
                         answers: [
-                            {text: "A1.1.1"},
-                            {text: "A1.1.2"},
-                            {text: "A1.1.3"}
+                            {text: "A woodchuck could chuck lots of wood if a woodchuck could chuck wood."},
+                            {text: "Is this really a question?"},
+                            {text: "It depends on the woodchuck."}
                         ]
                     },
                     {
                         id: 2,
-                        text: "Q1.2",
+                        text: "How many cans can a canner can if a canner can can cans?",
+                        correctAnswer: 2,
+                        answers: [
+                            {text: "A canner can can lots of cans if a canner can can cans."},
+                            {text: "Again? Really? Why are we doing this?"},
+                            {text: "Irrelevant. There's no reason to can cans."}
+                        ]
+                    },
+                    {
+                        id: 3,
+                        text: "If Peter Piper picked a peck of pickled peppers, where's the peck of pickled peppers Peter Piper picked?",
+                        correctAnswer: 2,
+                        answers: [
+                            {text: "By the other pecks of pickled peppers that Peter Piper picked."},
+                            {text: "They went bad, so I threw them out"},
+                            {text: "Oh, those were Peter's? I thought they were mine so I ate them."}
+                        ]
+                    },
+                    {
+                        id: 4,
+                        text: "This isn't a question? Wait, or is it?",
                         correctAnswer: 0,
                         answers: [
-                            {text: "A1.2.1"},
-                            {text: "A1.2.2"},
-                            {text: "A1.2.3"}
+                            {text: "Well, technically it is."},
+                            {text: "Is this a trick question?"},
+                            {text: "Psh. No."}
                         ]
                     }
                 ]
             },
             {
-                name: "Cat 2",
+                name: "JavaScript Knowledge",
                 questions: [
                     {
-                        id: 3,
-                        text: "Q2.1",
-                        correctAnswer: 0,
+                        id: 5,
+                        text: "What's the most widely-used JavaScript library?",
+                        correctAnswer: 1,
                         answers: [
-                            {text: "A2.1.1"},
-                            {text: "A2.1.2"},
-                            {text: "A2.1.3"}
+                            {text: "Backbone.js"},
+                            {text: "jQuery"},
+                            {text: "MarionetteJS"}
                         ]
                     },
                     {
-                        id: 4,
-                        text: "Q2.2",
+                        id: 6,
+                        text: "What does `typeof null` evaluate to?",
                         correctAnswer: 0,
                         answers: [
-                            {text: "A2.2.1"},
-                            {text: "A2.2.2"},
-                            {text: "A2.2.3"}
+                            {text: "'object'"},
+                            {text: "'string'"},
+                            {text: "'null'"}
+                        ]
+                    },
+                    {
+                        id: 7,
+                        text: "Is the string '0' truthy or falsey",
+                        correctAnswer: 0,
+                        answers: [
+                            {text: "truthy"},
+                            {text: "falsey"}
+                        ]
+                    },
+                    {
+                        id: 8,
+                        text: "What is the keyword to access all of the arguments passed to a function?",
+                        correctAnswer: 2,
+                        answers: [
+                            {text: "args"},
+                            {text: "parameters"},
+                            {text: "arguments"}
+                        ]
+                    }
+                ]
+            },
+            {
+                name: "MarionetteJS FTW",
+                questions: [
+                    {
+                        id: 9,
+                        text: "Which of these lists contains all of the View classes for Marionette?",
+                        correctAnswer: 1,
+                        answers: [
+                            {text: "ModelView, CollectionView, Layout"},
+                            {text: "ItemView, CollectionView, CompositeView, Layout"},
+                            {text: "View"}
+                        ]
+                    },
+                    {
+                        id: 10,
+                        text: "Who is the main author of Marionette?",
+                        correctAnswer: 0,
+                        answers: [
+                            {text: "Derick Bailey"},
+                            {text: "Addy Osmani"},
+                            {text: "Paul Irish"}
+                        ]
+                    },
+                    {
+                        id: 11,
+                        text: "What is the main color in the Marionette logo?",
+                        correctAnswer: 0,
+                        answers: [
+                            {text: "red"},
+                            {text: "blue"},
+                            {text: "green"}
+                        ]
+                    },
+                    {
+                        id: 12,
+                        text: "What is chapter 1 of <i>A Thorough Introduction to MarionetteJS</i> about?",
+                        correctAnswer: 2,
+                        answers: [
+                            {text: "Regions"},
+                            {text: "Modules"},
+                            {text: "Application"}
                         ]
                     }
                 ]
@@ -241,7 +330,7 @@
 
         var init_quiz_data = [
             {
-                name: "Quiz 1",
+                name: "Tongue Twister Quiz",
                 questions: [
                     {
                         question: 1,
@@ -250,18 +339,34 @@
                     {
                         question: 2,
                         chosenAnswer: 1
+                    },
+                    {
+                        question: 3,
+                        chosenAnswer: 2
+                    },
+                    {
+                        question: 4,
+                        chosenAnswer: 0
                     }
                 ]
             },
             {
-                name: "Quiz 2",
+                name: "JavaScript Quiz",
                 questions: [
                     {
-                        question: 2,
-                        chosenAnswer: null
+                        question: 5,
+                        chosenAnswer: 0
                     },
                     {
-                        question: 1,
+                        question: 6,
+                        chosenAnswer: 1
+                    },
+                    {
+                        question: 7,
+                        chosenAnswer: 2
+                    },
+                    {
+                        question: 8,
                         chosenAnswer: null
                     }
                 ]
