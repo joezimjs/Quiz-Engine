@@ -26,7 +26,13 @@ QuizEngine.module('Quiz', function(Quiz) {
 
         submitAnswer: function(event) {
             var selectedAnswer = this.$(':radio:checked').val();
-            this.model.set('chosenAnswer', parseInt(selectedAnswer), 10);
+
+            if (typeof selectedAnswer === "undefined") {
+                alert("Please select an answer");
+            }
+            else {
+                this.model.set('chosenAnswer', parseInt(selectedAnswer), 10);
+            }
             
             event.preventDefault();
         }
