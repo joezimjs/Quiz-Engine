@@ -9,13 +9,8 @@ QuizEngine.module('Quiz', function(Quiz) {
                 questionNumber: function() {
                     return options.questionNumber;
                 },
-                nextButtonText: function() {
-                    if (options.questionNumber === options.quizLength) {
-                        return "Submit Quiz";
-                    }
-                    else {
-                        return "Next Question";
-                    }
+                isLastQuestion: function() {
+                    return options.questionNumber === options.quizLength;
                 }
             };
         },

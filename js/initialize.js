@@ -137,7 +137,7 @@ var init_question_data = [
 
 var init_quiz_data = [
     {
-        name: "Tongue Twister Quiz",
+        name: "Complete Quiz",
         questions: [
             {
                 question: 1,
@@ -145,11 +145,11 @@ var init_quiz_data = [
             },
             {
                 question: 2,
-                chosenAnswer: 1
+                chosenAnswer: 0
             },
             {
                 question: 3,
-                chosenAnswer: 2
+                chosenAnswer: 0
             },
             {
                 question: 4,
@@ -158,7 +158,7 @@ var init_quiz_data = [
         ]
     },
     {
-        name: "JavaScript Quiz",
+        name: "Incomplete Quiz",
         questions: [
             {
                 question: 5,
@@ -166,11 +166,11 @@ var init_quiz_data = [
             },
             {
                 question: 6,
-                chosenAnswer: 1
+                chosenAnswer: 0
             },
             {
                 question: 7,
-                chosenAnswer: 0
+                chosenAnswer: null
             },
             {
                 question: 8,
