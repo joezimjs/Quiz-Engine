@@ -15,7 +15,7 @@ QuizEngine.module('Data', function(Data) {
         // Custom toJSON
         toJSON: function() {
             var data = Backbone.Model.prototype.toJSON.call(this);
-            if (data.answers instanceof Backbone.Collection) {
+            if (data.answers && data.answers.toJSON) {
                 data.answers = data.answers.toJSON();
             }
 

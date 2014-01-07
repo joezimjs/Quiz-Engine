@@ -22,7 +22,7 @@ QuizEngine.module('Data', function(Data) {
         // Custom toJSON to also JSONify 'questions'
         toJSON: function() {
             var data = Backbone.Model.prototype.toJSON.call(this);
-            if (data.questions) {
+            if (data.questions && data.questions.toJSON) {
                 data.questions = data.questions.toJSON();
             }
 
