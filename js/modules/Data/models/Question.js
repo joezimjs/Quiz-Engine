@@ -9,10 +9,7 @@ QuizEngine.module('Data', function(Data) {
         },
         initialize: function() {
             var answers = this.get('answers');
-
-            if (answers) {
-                this.set('answers', new Data.Answers(answers));
-            }
+            this.set('answers', new Data.Answers(answers));
         },
 
         // Custom toJSON

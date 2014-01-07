@@ -8,10 +8,7 @@ QuizEngine.module('Data', function(Data) {
 
         initialize: function() {
             var questions = this.get('questions');
-
-            if (questions) {
-                this.set('questions', new Data.Questions(questions));
-            }
+            this.set('questions', new Data.Questions(questions));
         },
 
         getQuestion: function(id) {
