@@ -25,7 +25,7 @@ QuizEngine.module('Data', function(Data) {
                 var questions = [];
 
                 _.each(categories, function(categoryId){
-                    questions.push(self.get(categoryId).get('questions').models);
+                    questions.push(self.get(categoryId).getQuestions());
                 });
 
                 return _.flatten(questions);
