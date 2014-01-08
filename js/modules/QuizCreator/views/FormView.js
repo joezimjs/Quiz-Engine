@@ -3,7 +3,12 @@ QuizEngine.module('QuizCreator', function(QuizCreator) {
     QuizCreator.FormView = Marionette.ItemView.extend({
         template: '#quizcreator-form',
         templateHelpers: function() {
-            return {};
+            var categories = this.collection;
+            return {
+                id: function(index) {
+                    return categories.at(index).cid;
+                }
+            };
         },
 
         events: {
@@ -21,7 +26,7 @@ QuizEngine.module('QuizCreator', function(QuizCreator) {
             }
 
             this.$el.find('input[type=checkbox]:checked').each(function() {
-                categories.push(parseInt(this.value, 10));
+                categories.push(this.value);
             });
 
             if (categories.length < 1) {

@@ -72,7 +72,7 @@
                         <% _.each(items, function(category, index) { %>
                             <div class="checkbox">
                                 <label>
-                                    <input type="checkbox" value="<%= index %>"> <%= category.name %>
+                                    <input type="checkbox" value="<%= id(index) %>"> <%= category.name %>
                                 </label>
                             </div>
                         <% }); %>

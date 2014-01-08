@@ -7,6 +7,7 @@ QuizEngine.module('Data', function(Data) {
             correctAnswer: 0,
             answers: []
         },
+
         initialize: function() {
             var answers = this.get('answers');
             this.set('answers', new Data.Answers(answers));
