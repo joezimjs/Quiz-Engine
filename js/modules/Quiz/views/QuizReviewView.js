@@ -16,8 +16,8 @@ QuizEngine.module('Quiz', function(Quiz) {
                 getScore: function() {
                     return quiz.getScore() + "%";
                 },
-                isCorrect: function(index) {
-                    var question = quiz.get('questions').at(index);
+                isCorrect: function(qid) {
+                    var question = quiz.get('questions').get(qid);
 
                     return question.isCorrect();
                 }

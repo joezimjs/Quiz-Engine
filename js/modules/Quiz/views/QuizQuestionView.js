@@ -26,7 +26,7 @@ QuizEngine.module('Quiz', function(Quiz) {
                 alert("Please select an answer");
             }
             else {
-                this.model.set('chosenAnswer', parseInt(selectedAnswer), 10);
+                this.model.set('chosenAnswer', parseInt(selectedAnswer, 10));
             }
             
             event.preventDefault();

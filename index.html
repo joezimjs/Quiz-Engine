@@ -69,10 +69,10 @@
                     <label class="col-xs-4 col-sm-2">Question Categories</label>
                     <div class="col-xs-8 col-sm-10">
                         <p class="help-block">Choose at least one category below. Your quiz will be comprised of all the questions from each of the categories selected.</p>
-                        <% _.each(items, function(category, index) { %>
+                        <% _.each(items, function(category) { %>
                             <div class="checkbox">
                                 <label>
-                                    <input type="checkbox" value="<%= id(index) %>"> <%= category.name %>
+                                    <input type="checkbox" value="<%= category.id %>"> <%= category.name %>
                                 </label>
                             </div>
                         <% }); %>
@@ -117,7 +117,7 @@
                         <tr>
                             <td><%= index + 1 %></td>
                             <td>
-                                <% if (isCorrect(index)) { %>
+                                <% if (isCorrect(question.id)) { %>
                                     <span class="glyphicon glyphicon-ok green"></span>
                                 <% } else { %>
                                     <span class="glyphicon glyphicon-remove red"></span>

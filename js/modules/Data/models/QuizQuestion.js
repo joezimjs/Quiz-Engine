@@ -25,6 +25,10 @@ QuizEngine.module('Data', function(Data) {
                 data.question = data.question.toJSON();
             }
 
+            if (!data.id) {
+                data.id = this.cid;
+            }
+
             return data;
         }
     });

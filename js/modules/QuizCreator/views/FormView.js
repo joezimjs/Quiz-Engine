@@ -2,14 +2,6 @@ QuizEngine.module('QuizCreator', function(QuizCreator) {
     
     QuizCreator.FormView = Marionette.ItemView.extend({
         template: '#quizcreator-form',
-        templateHelpers: function() {
-            var categories = this.collection;
-            return {
-                id: function(index) {
-                    return categories.at(index).cid;
-                }
-            };
-        },
 
         events: {
             'click [data-action=start]': 'createQuiz'
