@@ -32,7 +32,7 @@ QuizEngine.module('Data', function(Data) {
             }
 
             if (_.isNumber(categories) || _.isString(categories)) {
-                return this.get(categories).get('questions').models;
+                return this.get(categories).getQuestions();
             }
 
             return null;
