@@ -12,9 +12,8 @@ QuizEngine.module('QuizCreator', function(QuizCreator) {
 
         createQuiz: function() {
             var categories = [],
-                questions = [],
                 quizName = this.$el.find('#quizName').val(),
-                quiz;
+                questions, quiz;
 
             if (!quizName) {
                 alert("Please enter a quiz name");
@@ -30,11 +29,8 @@ QuizEngine.module('QuizCreator', function(QuizCreator) {
                 return;
             }
 
-            _.each(categories, function(categoryIndex){
-                questions.push(QuizEngine.module('Data').questions.at(categoryIndex).getQuestions());
-            });
-
-            quiz = QuizEngine.module('Data').quizzes.createQuiz(quizName, _.flatten(questions));
+            questions = QuizEngine.module('Data').questions.getQuestionsByCategories(categories);
+            quiz = QuizEngine.module('Data').quizzes.createQuiz(quizName, questions);
             Backbone.history.navigate('quiz/' + quiz.cid, {trigger:true});
         }
     });
