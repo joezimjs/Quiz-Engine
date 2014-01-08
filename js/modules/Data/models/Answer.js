@@ -8,9 +8,6 @@ QuizEngine.module('Data', function(Data) {
         // Custom toJSON
         toJSON: function() {
             var data = Backbone.Model.prototype.toJSON.call(this);
-            if (!data.id) {
-                data.id = this.cid;
-            }
 
             return data;
         }
