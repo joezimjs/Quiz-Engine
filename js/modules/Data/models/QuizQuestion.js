@@ -9,7 +9,8 @@ QuizEngine.module('Data', function(Data) {
         initialize: function() {
             var q = this.get('question');
 
-            if (_.isNumber(q)) {
+            if (_.isNumber(q) || _.isString(q)) {
+                // If all we have is an identifier, retrieve the actual question
                 this.set('question', QuizEngine.module('Data').questions.getQuestion(q));
             }
         },

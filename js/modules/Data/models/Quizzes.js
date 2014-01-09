@@ -6,14 +6,8 @@ QuizEngine.module('Data', function(Data) {
         createQuiz: function(name, questions) {
             var quiz = {
                 name: name,
-                questions: []
-            }
-
-            _.each(questions, function(question) {
-                quiz.questions.push({
-                    question: question.get('id')
-                });
-            });
+                questions: questions
+            };
 
             return this.add(quiz);
         }
