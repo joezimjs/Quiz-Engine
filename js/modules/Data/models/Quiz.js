@@ -13,9 +13,8 @@ QuizEngine.module('Data', function(Data) {
         },
 
         getCurrentQuestion: function() {
-            var self = this;
             // Get the first question that hasn't been answered
-            return this.get('questions').find(function(question, index) {
+            return this.get('questions').find(function(question) {
                 if (question.get('chosenAnswer') === null) {
                     return true;
                 }
