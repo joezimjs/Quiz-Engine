@@ -32,7 +32,7 @@ QuizEngine.module('Data', function(Data) {
                 return null;
             }
 
-            return parseInt(this.getCorrect() / this.get('questions').length * 100, 10);
+            return Math.round(this.getCorrect() / this.get('questions').length * 100);
         },
 
         getCorrect: function() {
