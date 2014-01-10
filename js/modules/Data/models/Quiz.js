@@ -36,15 +36,9 @@ QuizEngine.module('Data', function(Data) {
         },
 
         getCorrect: function() {
-            var correct = this.get('questions').reduce(function(total, question){
-                if (question.isCorrect()) {
-                    return ++total;
-                }
-
-                return total;
-            }, 0);
-
-            return correct;
+            return this.get('questions').filter(function(question) {
+                return question.isCorrect();
+            }).length;
         },
 
         // Custom toJSON to also JSONify 'questions'
