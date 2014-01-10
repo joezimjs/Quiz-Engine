@@ -17,7 +17,6 @@ QuizEngine.module('Data', function(Data) {
             // Get the first question that hasn't been answered
             return this.get('questions').find(function(question, index) {
                 if (question.get('chosenAnswer') === null) {
-                    self.currentNumber = index + 1;
                     return true;
                 }
             });
