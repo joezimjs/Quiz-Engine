@@ -38,7 +38,7 @@ QuizEngine.module('Quiz', function(Quiz) {
                 var question = this.data.getCurrentQuestion();
                 this.subView = new Quiz.QuizQuestionView({
                     model: question, 
-                    questionNumber: this.data.currentNumber,
+                    questionNumber: this.data.getCurrentPosition(),
                     quizLength: this.data.get('questions').length
                 });
             }

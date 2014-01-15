@@ -21,6 +21,17 @@ QuizEngine.module('Data', function(Data) {
             });
         },
 
+        getCurrentPosition: function() {
+            // Get the number for the first question that hasn't been answered
+            return this.get('questions').reduce(function(memo, question, index) {                
+                if (question.get('chosenAnswer') === null && memo === 0) {
+                    return index + 1;
+                }
+
+                return memo;
+            }, 0);
+        },
+
         // Determine if the quiz is in progress or complete
         getStatus: function() {
             // Any questions where 'chosenAnswer' is null are unanswered, so the quiz would be "In Progress"
