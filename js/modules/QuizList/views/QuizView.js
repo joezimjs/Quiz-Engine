@@ -25,7 +25,7 @@ QuizEngine.module('QuizList', function(QuizList) {
             'click [data-action=delete]': 'deleteQuiz'
         },
 
-        deleteQuiz: function(event) {
+        deleteQuiz: function() {
             this.model.destroy();
         }
     });
