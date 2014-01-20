@@ -9,15 +9,15 @@
 </head>
 <body>
     <div class="container">
-        <header id="header" class="navbar navbar-inverse navbar-fixed-top">
+        <header data-region="header" class="navbar navbar-inverse navbar-fixed-top">
             <div class="container">
                 <div class="navbar-header">
                     <a href="#list" class="navbar-brand">Quiz Engine</a>
                 </div>
             </div>
         </header>
-        <section id="body" class="row"></section>
-        <footer id="footer" class="row">
+        <section id="appBody" data-region="body" class="row"></section>
+        <footer data-region="footer" class="row">
             <p class="col-xs-12 text-muted">Copyright &copy; 2013 Joe Zimmerman. This is an example application used in the book, <em>A Thorough Introduction to MarionetteJS</em>.</p>
         </footer>
     </div>
@@ -87,7 +87,7 @@
     <script type="text/template" id="quiz-quiz">
         <div class="col-xs-12">
             <h3><%= name %></h3>
-            <div id="quiz-subview-container"></div>
+            <div data-region="quizData"></div>
         </div>
     </script>
 

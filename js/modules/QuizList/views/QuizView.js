@@ -1,22 +1,20 @@
 QuizEngine.module('QuizList', function(QuizList) {
-    
+
     QuizList.QuizView = Marionette.ItemView.extend({
         tagName: 'tr',
         template: '#quizlist-quiz',
         templateHelpers: function() {
             var model = this.model;
-            
+
             return {
                 score: function() {
-                    var score = model.getScore();
-
-                    return score === null ? "In Progress" : score + "%";
+                    return model.isInProgress() ? "In Progress" : model.getScore() + "%";
                 },
                 id: function() {
                     return model.cid;
                 },
                 viewAction: function() {
-                    return model.getStatus() === "Complete" ? "Review" : "Continue";
+                    return model.isComplete() ? "Review" : "Continue";
                 }
             };
         },

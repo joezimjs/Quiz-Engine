@@ -9,7 +9,7 @@ QuizEngine.module('Data', function(Data) {
         initialize: function() {
             this.set('questions', new Data.QuizQuestions(this.get('questions')));
 
-            this.listenTo(this.get('questions'), 'all', this._forwardEvents);
+            this.listenTo(this.get('questions'), 'change:chosenAnswer', this._transformEvent);
         },
 
         getCurrentQuestion: function() {
@@ -32,14 +32,17 @@ QuizEngine.module('Data', function(Data) {
             }, 0);
         },
 
-        // Determine if the quiz is in progress or complete
-        getStatus: function() {
-            // Any questions where 'chosenAnswer' is null are unanswered, so the quiz would be "In Progress"
-            return this.get('questions').where({chosenAnswer: null}).length > 0 ? "In Progress" : "Complete";
+        isComplete: function() {
+            // If no questions have a null 'chosenAnswer', the quiz is complete
+            return this.get('questions').where({chosenAnswer: null}).length === 0;
+        },
+
+        isInProgress: function() {
+            return !this.isComplete();
         },
 
         getScore: function() {
-            if (this.getStatus() === "In Progress") {
+            if (this.isInProgress()) {
                 return null;
             }
 
@@ -62,10 +65,11 @@ QuizEngine.module('Data', function(Data) {
             return data;
         },
 
-        _forwardEvents: function() {
-            var args = Array.prototype.slice.call(arguments);
-            args[0] = 'questions:' + args[0];
-            this.trigger.apply(this, args);
+        _transformEvent: function(question, index) {
+            this.trigger('question:answered', question, index);
+            if (this.isComplete()) {
+                this.trigger('completed');
+            }
         }
 
     });

@@ -26,7 +26,7 @@ QuizEngine.module('QuizCreator', function(QuizCreator) {
                 return;
             }
 
-            questions = QuizEngine.module('Data').questions.getQuestionsByCategories(categories);
+            questions = this.collection.getQuestionsByCategories(categories);
             quiz = QuizEngine.module('Data').quizzes.createQuiz(quizName, questions);
             Backbone.history.navigate('quiz/' + quiz.cid, {trigger:true});
         }

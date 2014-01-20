@@ -14,7 +14,7 @@ QuizEngine.module('Quiz', function(Quiz) {
         },
 
         regions: {
-            quizData: '#quiz-subview-container'
+            quizData: '[data-region=quizData]'
         }
     });
 

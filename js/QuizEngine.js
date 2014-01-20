@@ -5,9 +5,9 @@ var QuizEngine = (function(){
     var application = new Application();
 
     application.addRegions({
-        header: '#header', // Nothing uses this, but an extension could.
-        body: '#body',
-        footer: '#footer' // Nothing uses this, but an extension could.
+        header: '[data-region=header]', // Not used right now
+        body: '[data-region=body]',
+        footer: '[data-region=footer]' // Not used right now
     });
 
     application.on('initialize:after', function() {
