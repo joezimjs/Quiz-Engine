@@ -22,7 +22,7 @@ QuizEngine.module('Quiz', function(Quiz) {
         submitAnswer: function(event) {
             var selectedAnswer = this.$(':radio:checked').val();
 
-            if (typeof selectedAnswer === "undefined") {
+            if (_.isUndefined(selectedAnswer)) {
                 alert("Please select an answer");
             }
             else {
