@@ -57,11 +57,6 @@ QuizEngine.module('Quiz', function(Quiz) {
             this.view.quizData.show(subView);
         },
 
-        refresh: function() {
-            this.view.render();
-            this.showQuizData();
-        },
-
         // Makes sure that this subapp is running so that we can perform everything we need to
         _ensureSubAppIsRunning: function() {
             QuizEngine.execute('subapp:start', 'Quiz');
