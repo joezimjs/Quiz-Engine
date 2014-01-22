@@ -14,4 +14,3 @@ If you want to run this application, follow these steps:
 * Download the repository. Either use Git to clone the repo, or just download and unzip the zip file
 * Run the code on any web server
 
-FAKE CHANGE
