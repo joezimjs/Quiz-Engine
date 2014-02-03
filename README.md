@@ -10,3 +10,5 @@ If you want to run this application, follow these steps:
 * Download the repository. Either use Git to clone the repo, or just download and unzip the zip file
 * Run the code on any web server
 
+**License: MIT**
+*See LICENSE.md for details*
